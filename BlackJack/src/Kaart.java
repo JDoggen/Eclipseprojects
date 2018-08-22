@@ -4,7 +4,7 @@ class Kaart {
 	
 	public Kaart (char suit, char value) {
 		this.suit = suit;
-		this.value = value;		
+		this.value = value;
 	}
 	
 	public char getSuit() {

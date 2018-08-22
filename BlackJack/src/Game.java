@@ -1,5 +1,3 @@
-import java.util.Scanner;
-
 class Game{
 	Speler speler1;
 	Speler bank;

@@ -45,10 +45,9 @@ class Speler {
 				punten += Character.getNumericValue(kaart.getValue());
 			} else if(Character.getNumericValue(kaart.getValue()) > 10) { //Card is a J, Q or K
 				punten += 10;
-			} else if(Character.getNumericValue(kaart.getValue()) > 10) {
+			} else if(Character.getNumericValue(kaart.getValue()) == 10) {
 				punten += 11;
 			}
-			
 			return punten;
 		}
 	}
