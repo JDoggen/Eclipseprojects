@@ -2,54 +2,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 class Speler {
+	//Speler starts with $500 and an empty hand
 	int geld = 500;
 	int punten;
 	List<Kaart> eigenKaarten = new ArrayList<Kaart>();
 	
-	
+	//Getters/setters for some fields, also quick method for giving a player a card
 	public int getGeld() {
 		return geld;
 	}
 	
 	public void setGeld(int geld) {
 		this.geld = geld;
-	}
-	
-	public int getPunten(boolean hide) {
-		punten = 0;
-		if(!hide) {
-			//First, count all non-ace cards
-			for(Kaart kaart : eigenKaarten) {
-				if(Character.getNumericValue(kaart.getValue()) < 10) {   //chars 2-9 have ASCII codes 50-57
-					punten += Character.getNumericValue(kaart.getValue());
-				} else if(Character.getNumericValue(kaart.getValue()) > 10) { //Card is a J, Q or K
-					punten += 10;
-				} 
-			}
-			
-			//Secondly, count all aces
-			short aces=0;
-			for(Kaart kaart : eigenKaarten) {
-				if(Character.getNumericValue(kaart.getValue()) == 10) { //Card is an ace
-					aces++;
-				}			
-			}
-			punten += aces;
-			if(punten <= 11 && aces >= 1) {    //If there's an ace and points allow; let ace count as 11
-				punten += 10;
-			}
-			return punten;
-		} else {
-			Kaart kaart = eigenKaarten.get(0);
-			if(Character.getNumericValue(kaart.getValue()) < 10) {   //chars 2-9 have ASCII codes 50-57
-				punten += Character.getNumericValue(kaart.getValue());
-			} else if(Character.getNumericValue(kaart.getValue()) > 10) { //Card is a J, Q or K
-				punten += 10;
-			} else if(Character.getNumericValue(kaart.getValue()) == 10) {
-				punten += 11;
-			}
-			return punten;
-		}
 	}
 	
 	public void setPunten(int punten) {
@@ -64,7 +28,44 @@ class Speler {
 		eigenKaarten.add(kaart);
 	}
 	
-	public void printKaarten(boolean hide) {
+	
+	//Method for counting and returning punten
+	public int punten(boolean hide) {
+		punten = 0;
+		if(!hide) {                                                                //Count all the cards in the hand
+			
+			short aces = 0;
+			//Count all cards, keep track of the found aces
+			for(Kaart kaart : eigenKaarten) {
+				if(Character.getNumericValue(kaart.getValue()) < 10) {             //get Numeric value of cards 2-10
+					punten += Character.getNumericValue(kaart.getValue());
+				} else if(Character.getNumericValue(kaart.getValue()) > 10) {      //Card is a J, Q or K
+					punten += 10;
+				} else {
+					aces ++;                                                       //Else; card is an ace
+				}
+			}
+
+			punten += aces;
+			if(punten <= 11 && aces >= 1) {                                        //If there's an ace and points allow; let ace count as 11
+				punten += 10;
+			}
+			return punten;  
+		} else {                                                                   //Count only the first card, as one of the dealer's card is protected
+			Kaart kaart = eigenKaarten.get(0); 
+			if(Character.getNumericValue(kaart.getValue()) < 10) {                 //Get Numeric value of cards 2-10
+				punten += Character.getNumericValue(kaart.getValue());
+			} else if(Character.getNumericValue(kaart.getValue()) > 10) {          //Card is a J, Q or K
+				punten += 10;
+			} else if(Character.getNumericValue(kaart.getValue()) == 10) {         //Card is an ace
+				punten += 11;
+			}
+			return punten;
+		}
+	}
+	
+	//Print cards when asked
+	public void printKaarten(boolean hide) {                                       //if(hide) makes sure only the first card is printed
 		if(hide) {
 			System.out.print(eigenKaarten.get(0).getSuit() + "" + eigenKaarten.get(0).getValue() + " ## ");
 		}else {

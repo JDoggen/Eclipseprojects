@@ -7,10 +7,18 @@ class Deck{
 	char[] values = {'A', '2', '3', '4', '5', '6', '7', '8', '9', 'T', 'J', 'Q', 'K'};
 	List<Kaart> deck = new ArrayList<Kaart>();
 	
+	//getter for the deck field
+	List<Kaart> getDeck(){
+		return deck;
+	}
+	
+	//Constructor ensures deck is created upon creating a Deck object
 	public Deck() {
 		createNewDeck();
 	}
 	
+	
+	//Create 52 cards with all possible combinations of suits-values
 	public void createNewDeck() {
 		deck = new ArrayList<Kaart>();
 		for(char c : suits) {
@@ -20,10 +28,7 @@ class Deck{
 		}
 	}
 	
-	List<Kaart> getDeck(){
-		return deck;
-	}
-	
+	//Randomize the deck order
 	public void shuffleCards() {
 		Collections.shuffle(deck);
 	}	
