@@ -43,36 +43,37 @@ public class BlackJack {
 				if(!validInput) {																//If no bet is received, print
 					System.out.println("Geen geldige input");
 				}
+			}if(playing) {
+				game.start();																		//Valid input is received; game is commenced, other code waits untill game ends
+				if(speler1.punten(false) > 21) {													//Check the endgame score, if player is busted and if the player beat the bank
+					System.out.println("Helaas, je bent gebust");
+					speler1.geld -= inzet;
+				} else if(bank.punten(false) > 21) {
+					System.out.println("De bank is gebust, je hebt gewonnen");
+					speler1.geld += inzet;
+				} else if(bank.punten(false) == speler1.punten(false)) {
+					System.out.println("Gelijkspel, je krijgt je inzet terug");
+				} else if(bank.punten(false) > speler1.punten(false)) {
+					System.out.println("Helaas, de bank heeft gewonnen, je bent je inzet kwijt");
+					speler1.geld -= inzet;
+				} else if(speler1.eigenKaarten.size() == 2 && speler1.punten(false) == 21) {
+					System.out.println("Blackjack!");
+					speler1.geld += Math.floor((inzet * 1.5f));
+				
+				} else {
+					System.out.println("Gefeliciteerd, je hebt gewonnen!");
+					speler1.geld += inzet;
+				}
+				System.out.println();
+				for(Kaart k: game.cardDeck.deck) {													//Game ended and the deck should be revealed
+					System.out.print(k.getSuit());
+					System.out.print(k.getValue());
+					System.out.print(" ");
+				}
+				System.out.println();
+				speler1.eigenKaarten = new ArrayList<Kaart>();										//Remove cards from both the bank and the player
+				bank.eigenKaarten = new ArrayList<Kaart>();
 			}
-			game.start();																		//Valid input is received; game is commenced, other code waits untill game ends
-			if(speler1.punten(false) > 21) {													//Check the endgame score, if player is busted and if the player beat the bank
-				System.out.println("Helaas, je bent gebust");
-				speler1.geld -= inzet;
-			} else if(bank.punten(false) > 21) {
-				System.out.println("De bank is gebust, je hebt gewonnen");
-				speler1.geld += inzet;
-			} else if(bank.punten(false) == speler1.punten(false)) {
-				System.out.println("Gelijkspel, je krijgt je inzet terug");
-			} else if(bank.punten(false) > speler1.punten(false)) {
-				System.out.println("Helaas, de bank heeft gewonnen, je bent je inzet kwijt");
-				speler1.geld -= inzet;
-			} else if(speler1.eigenKaarten.size() == 2 && speler1.punten(false) == 21) {
-				System.out.println("Blackjack!");
-				speler1.geld += Math.floor((inzet * 1.5f));
-			
-			} else {
-				System.out.println("Gefeliciteerd, je hebt gewonnen!");
-				speler1.geld += inzet;
-			}
-			System.out.println();
-			for(Kaart k: game.cardDeck.deck) {													//Game ended and the deck should be revealed
-				System.out.print(k.getSuit());
-				System.out.print(k.getValue());
-				System.out.print(" ");
-			}
-			System.out.println();
-			speler1.eigenKaarten = new ArrayList<Kaart>();										//Remove cards from both the bank and the player
-			bank.eigenKaarten = new ArrayList<Kaart>();
 		}
 	}
 }
